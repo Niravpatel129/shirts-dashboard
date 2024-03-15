@@ -14,6 +14,8 @@ const TestDesigns = [
 ];
 
 export default function Design() {
+  const [isMobile, setIsMobile] = useState(false);
+
   const [shirtType, setShirtType] = useState('t-shirt');
   const [color, setColor] = useState('white');
   const [backgroundColor, setBackgroundColor] = useState('white');
@@ -46,12 +48,23 @@ export default function Design() {
   };
 
   useEffect(() => {
+    // Simple mobile detection
+    const userAgent = navigator.userAgent.toLowerCase();
+    const mobile = /iphone|ipad|ipod|android/.test(userAgent);
+    setIsMobile(mobile);
+  }, []);
+
+  useEffect(() => {
     const savedDesigns = localStorage.getItem('designs');
 
     if (savedDesigns) {
       setDesigns(JSON.parse(savedDesigns));
     }
   }, []);
+
+  if (isMobile) {
+    return <div>This page is best viewed on a desktop browser.</div>;
+  }
 
   return (
     <div className='flex'>
