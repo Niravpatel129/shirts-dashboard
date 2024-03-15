@@ -15,6 +15,7 @@ const TestDesigns = [
 
 export default function Design() {
   const [isMobile, setIsMobile] = useState(false);
+  console.log('🚀  isMobile:', isMobile);
 
   const [shirtType, setShirtType] = useState('t-shirt');
   const [color, setColor] = useState('white');
