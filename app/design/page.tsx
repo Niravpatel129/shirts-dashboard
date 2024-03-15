@@ -14,6 +14,8 @@ const TestDesigns = [
 ];
 
 export default function Design() {
+  const [isMobile, setIsMobile] = useState(false);
+
   const [shirtType, setShirtType] = useState('t-shirt');
   const [color, setColor] = useState('white');
   const [backgroundColor, setBackgroundColor] = useState('white');
@@ -50,6 +52,12 @@ export default function Design() {
 
     if (savedDesigns) {
       setDesigns(JSON.parse(savedDesigns));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (window && window.innerWidth < 768) {
+      setIsMobile(true);
     }
   }, []);
 
