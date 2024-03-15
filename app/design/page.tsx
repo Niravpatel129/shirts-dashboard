@@ -1,5 +1,6 @@
 'use client';
 import { Button, Card, CardHeader, Image, Select, SelectItem } from '@nextui-org/react';
+import CustomTShirtDesigner from '../components/CustomTShirtDesigner/CustomTShirtDesigner';
 
 export default function Design() {
   return (
@@ -83,7 +84,11 @@ export default function Design() {
         </div>
 
         <div className='design-panel'>
-          <div className='panel border-2 bg-gradient-to-tr from-pink-500 to-yellow-500 h-[700px] w-[700px]'></div>
+          <CustomTShirtDesigner
+            backgroundColor='white'
+            shirtImage='https://owayo-cdn.com/cdn-cgi/image/format=auto,fit=contain,width=490/newhp/img/productHome/productSeitenansicht/productservice/tshirts_classic_herren_basic_productservice/st2020_whi.png'
+          />
+          {/* <div className='panel border-2 bg-gradient-to-tr from-pink-500 to-yellow-500 h-[700px] w-[700px]'></div> */}
         </div>
       </div>
     </div>
