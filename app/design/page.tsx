@@ -1,7 +1,7 @@
 'use client';
 import { Button, Card, CardHeader, Image, Select, SelectItem } from '@nextui-org/react';
 import { saveAs } from 'file-saver';
-import { useEffect, useRef, useState } from 'react'; // Import useState from React
+import { useEffect, useRef, useState } from 'react';
 import CustomTShirtDesigner from '../components/CustomTShirtDesigner/CustomTShirtDesigner';
 
 const TestDesigns = [
