@@ -44,7 +44,7 @@ export default function Design() {
               label='Shirt Type'
               placeholder='Select a type'
               value={shirtType} // Bind state variable
-              onChange={(e) => setShirtType(e)} // Update state on change
+              onChange={(e) => setShirtType(e.target.value)} // Update state on change
               className=''
               color='secondary'
             >
@@ -63,7 +63,7 @@ export default function Design() {
               label='Color'
               placeholder='Select a color'
               value={color} // Bind state variable
-              onChange={(e) => setColor(e)} // Update state on change
+              onChange={(e) => setColor(e.target.value)} // Update state on change
               className=''
               color='secondary'
             >
@@ -81,7 +81,7 @@ export default function Design() {
               label='Background Color'
               placeholder='Select a background color'
               value={backgroundColor} // Bind state variable
-              onChange={(e) => setBackgroundColor(e)} // Update state on change
+              onChange={(e) => setBackgroundColor(e.target.value)} // Update state on change
               className=''
               color='secondary'
             >

@@ -99,16 +99,17 @@ const CustomTShirtDesigner = ({
         const dx = mouseX - resizeStart.x;
         const dy = mouseY - resizeStart.y;
 
-        // Update resizeStart to the current mouse position for the next move event
-        setResizeStart({ x: mouseX, y: mouseY });
-
         if (e.shiftKey) {
-          // Maintain aspect ratio
-          const diagonalMove = Math.sqrt(dx * dx + dy * dy);
-          const aspectRatioDiagonal = Math.sqrt(1 + aspectRatio * aspectRatio);
-          const sizeIncrease = diagonalMove / aspectRatioDiagonal;
-          const newWidth = size.width + sizeIncrease * (Math.abs(dx) / dx);
-          const newHeight = size.height + (sizeIncrease * (Math.abs(dy) / dy)) / aspectRatio;
+          // Maintain aspect ratio, resizing based on the larger movement in X or Y direction
+          const aspectRatio = size.width / size.height;
+          let newWidth = size.width + dx;
+          let newHeight = size.height + dy;
+
+          if (Math.abs(dx) > Math.abs(dy)) {
+            newHeight = newWidth / aspectRatio;
+          } else {
+            newWidth = newHeight * aspectRatio;
+          }
 
           setSize({
             width: Math.max(100, newWidth),
@@ -121,6 +122,9 @@ const CustomTShirtDesigner = ({
             height: Math.max(100, prevSize.height + dy),
           }));
         }
+
+        // Update resizeStart to the current mouse position for the next move event
+        setResizeStart({ x: mouseX, y: mouseY });
         draw();
       }
     };
