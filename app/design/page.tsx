@@ -1,7 +1,7 @@
 'use client';
 import { Button, Card, CardHeader, Image, Select, SelectItem } from '@nextui-org/react';
 import { saveAs } from 'file-saver';
-import { useRef, useState } from 'react'; // Import useState from React
+import { useEffect, useRef, useState } from 'react'; // Import useState from React
 import CustomTShirtDesigner from '../components/CustomTShirtDesigner/CustomTShirtDesigner';
 
 const TestDesigns = [
@@ -36,12 +36,22 @@ export default function Design() {
       // Update the designs state with the new design
       setDesigns([...designs, newDesign]);
 
+      localStorage.setItem('designs', JSON.stringify([...designs, newDesign]));
+
       // Optional: Save the canvas image as a file (if needed)
       canvas.toBlob((blob) => {
         saveAs(blob, newDesign.name + '.png');
       });
     }
   };
+
+  useEffect(() => {
+    const savedDesigns = localStorage.getItem('designs');
+
+    if (savedDesigns) {
+      setDesigns(JSON.parse(savedDesigns));
+    }
+  }, []);
 
   return (
     <div className='flex'>

@@ -1,4 +1,5 @@
 // CustomTShirtDesigner.js
+import { Button } from '@nextui-org/react';
 import { saveAs } from 'file-saver';
 import { useEffect, useState } from 'react';
 import FileBase64 from 'react-file-base64';
@@ -42,6 +43,7 @@ const CustomTShirtDesigner = ({
         const handleX = position.x + size.width - handleSize / 2;
         const handleY = position.y + size.height - handleSize / 2;
         context.fillRect(handleX, handleY, handleSize, handleSize);
+
         context.fillStyle = !showIndicator ? 'transparent' : 'blue';
       }
     };
@@ -176,10 +178,11 @@ const CustomTShirtDesigner = ({
         height={outputSize.height}
         style={{ border: '1px solid #ccc', margin: '20px auto', display: 'block' }}
       ></canvas>
-      <button onClick={() => setShowIndicator(!showIndicator)}>
-        Show Indicator {showIndicator ? 'On' : 'Off'}
-      </button>
-      <button onClick={handleExport}>Export</button>
+      {designLoaded && (
+        <Button onClick={() => setShowIndicator(!showIndicator)}>
+          Show Resize Indicator {showIndicator ? 'On' : 'Off'}
+        </Button>
+      )}
     </div>
   );
 };
