@@ -56,10 +56,19 @@ export default function Design() {
   }, []);
 
   useEffect(() => {
-    if (window && window.innerWidth < 768) {
+    console.log('🚀  window:', window);
+    if (window && window.innerWidth < 568) {
       setIsMobile(true);
     }
   }, []);
+
+  if (isMobile) {
+    return (
+      <div>
+        <h1 className='text-center'>Mobile view not supported</h1>
+      </div>
+    );
+  }
 
   return (
     <div className='flex'>
