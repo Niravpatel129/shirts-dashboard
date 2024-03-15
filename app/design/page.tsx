@@ -14,19 +14,31 @@ const TestDesigns = [
 ];
 
 export default function Design() {
-  // State variables for each dropdown
-  const [shirtType, setShirtType] = useState('');
-  const [color, setColor] = useState('');
-  const [backgroundColor, setBackgroundColor] = useState('');
+  const [shirtType, setShirtType] = useState('t-shirt');
+  const [color, setColor] = useState('white');
+  const [backgroundColor, setBackgroundColor] = useState('white');
   const canvasRef = useRef(null);
   const [designs, setDesigns] = useState(TestDesigns);
 
-  // Define handleExport function here
   const handleExport = () => {
     const canvas = canvasRef.current;
     if (canvas) {
+      // Convert the canvas to a data URL
+      const dataUrl = canvas.toDataURL('image/png');
+
+      // Create a new design object
+      const newDesign = {
+        name: `Custom Design ${designs.length + 1}`,
+        type: `${shirtType}, ${color}`,
+        image: dataUrl,
+      };
+
+      // Update the designs state with the new design
+      setDesigns([...designs, newDesign]);
+
+      // Optional: Save the canvas image as a file (if needed)
       canvas.toBlob((blob) => {
-        saveAs(blob, 'custom-t-shirt.png');
+        saveAs(blob, newDesign.name + '.png');
       });
     }
   };
@@ -59,6 +71,7 @@ export default function Design() {
           {/* Shirt Type dropdown with state */}
           <div className='input-item w-full'>
             <Select
+              defaultSelectedKeys={['t-shirt']}
               variant='faded'
               items={[
                 { value: 't-shirt', label: 't-shirt' },
@@ -84,6 +97,7 @@ export default function Design() {
                 { value: 'black', label: 'black' },
                 { value: 'red', label: 'red' },
               ]}
+              defaultSelectedKeys={['white']}
               label='Color'
               placeholder='Select a color'
               value={color} // Bind state variable
@@ -98,6 +112,7 @@ export default function Design() {
           <div className='input-item w-full'>
             <Select
               variant='faded'
+              defaultSelectedKeys={['white']}
               items={[
                 { value: 'black', label: 'black' },
                 { value: 'white', label: 'white' },
