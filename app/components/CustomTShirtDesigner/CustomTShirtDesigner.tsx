@@ -95,18 +95,31 @@ const CustomTShirtDesigner = ({
         const mouseX = e.clientX - rect.left;
         const mouseY = e.clientY - rect.top;
 
+        // Calculate the difference from the initial resize position
+        const dx = mouseX - resizeStart.x;
+        const dy = mouseY - resizeStart.y;
+
+        // Update resizeStart to the current mouse position for the next move event
+        setResizeStart({ x: mouseX, y: mouseY });
+
         if (e.shiftKey) {
           // Maintain aspect ratio
-          let diff = Math.min(mouseX - resizeStart.x, mouseY - resizeStart.y);
+          const diagonalMove = Math.sqrt(dx * dx + dy * dy);
+          const aspectRatioDiagonal = Math.sqrt(1 + aspectRatio * aspectRatio);
+          const sizeIncrease = diagonalMove / aspectRatioDiagonal;
+          const newWidth = size.width + sizeIncrease * (Math.abs(dx) / dx);
+          const newHeight = size.height + (sizeIncrease * (Math.abs(dy) / dy)) / aspectRatio;
+
           setSize({
-            width: Math.max(100, size.width + diff),
-            height: Math.max(100, size.height + diff / aspectRatio),
+            width: Math.max(100, newWidth),
+            height: Math.max(100, newHeight),
           });
         } else {
-          setSize({
-            width: Math.max(100, size.width + mouseX - resizeStart.x),
-            height: Math.max(100, size.height + mouseY - resizeStart.y),
-          });
+          // Resize without maintaining the aspect ratio
+          setSize((prevSize) => ({
+            width: Math.max(100, prevSize.width + dx),
+            height: Math.max(100, prevSize.height + dy),
+          }));
         }
         draw();
       }
