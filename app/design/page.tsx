@@ -1,8 +1,14 @@
 'use client';
 import { Button, Card, CardHeader, Image, Select, SelectItem } from '@nextui-org/react';
+import { useState } from 'react'; // Import useState from React
 import CustomTShirtDesigner from '../components/CustomTShirtDesigner/CustomTShirtDesigner';
 
 export default function Design() {
+  // State variables for each dropdown
+  const [shirtType, setShirtType] = useState('');
+  const [color, setColor] = useState('');
+  const [backgroundColor, setBackgroundColor] = useState('');
+
   return (
     <div className='flex'>
       <div className='sidebar w-64 h-screen text-white flex flex-col items-center'>
@@ -22,10 +28,11 @@ export default function Design() {
               </div>
             </CardHeader>
           </Card>
-        </div>
+        </div>{' '}
       </div>
       <div className='flex-grow min-h-screen flex flex-col items-center'>
         <div className='inputs flex justify-between w-full mb-5 gap-5 p-2'>
+          {/* Shirt Type dropdown with state */}
           <div className='input-item w-full'>
             <Select
               variant='faded'
@@ -36,12 +43,15 @@ export default function Design() {
               ]}
               label='Shirt Type'
               placeholder='Select a type'
+              value={shirtType} // Bind state variable
+              onChange={(e) => setShirtType(e)} // Update state on change
               className=''
               color='secondary'
             >
               {(animal) => <SelectItem key={animal.value}>{animal.label}</SelectItem>}
             </Select>
           </div>
+          {/* Color dropdown with state */}
           <div className='input-item w-full'>
             <Select
               variant='faded'
@@ -52,12 +62,15 @@ export default function Design() {
               ]}
               label='Color'
               placeholder='Select a color'
+              value={color} // Bind state variable
+              onChange={(e) => setColor(e)} // Update state on change
               className=''
               color='secondary'
             >
               {(animal) => <SelectItem key={animal.value}>{animal.label}</SelectItem>}
             </Select>
           </div>
+          {/* Background Color dropdown with state */}
           <div className='input-item w-full'>
             <Select
               variant='faded'
@@ -67,12 +80,15 @@ export default function Design() {
               ]}
               label='Background Color'
               placeholder='Select a background color'
+              value={backgroundColor} // Bind state variable
+              onChange={(e) => setBackgroundColor(e)} // Update state on change
               className=''
               color='secondary'
             >
               {(animal) => <SelectItem key={animal.value}>{animal.label}</SelectItem>}
             </Select>
           </div>
+          {/* Your existing Button component */}
           <div className='input-item w-full flex justify-end'>
             <Button
               radius='sm'
@@ -83,12 +99,12 @@ export default function Design() {
           </div>
         </div>
 
+        {/* Your existing design panel code here */}
         <div className='design-panel'>
           <CustomTShirtDesigner
-            backgroundColor='white'
+            backgroundColor={backgroundColor} // Use state variable
             shirtImage='https://owayo-cdn.com/cdn-cgi/image/format=auto,fit=contain,width=490/newhp/img/productHome/productSeitenansicht/productservice/tshirts_classic_herren_basic_productservice/st2020_whi.png'
           />
-          {/* <div className='panel border-2 bg-gradient-to-tr from-pink-500 to-yellow-500 h-[700px] w-[700px]'></div> */}
         </div>
       </div>
     </div>
