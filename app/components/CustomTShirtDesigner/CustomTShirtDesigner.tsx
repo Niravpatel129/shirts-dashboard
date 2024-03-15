@@ -1,12 +1,13 @@
 // CustomTShirtDesigner.js
 import { saveAs } from 'file-saver';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import FileBase64 from 'react-file-base64';
 
 const CustomTShirtDesigner = ({
   backgroundColor = 'white',
   shirtImage,
   outputSize = { width: 600, height: 700 },
+  canvasRef,
 }) => {
   const [file, setFile] = useState('');
   const [showIndicator, setShowIndicator] = useState(false);
@@ -16,7 +17,7 @@ const CustomTShirtDesigner = ({
   const [position, setPosition] = useState({ x: 150, y: 150 });
   const [size, setSize] = useState({ width: 300, height: 400 });
   const aspectRatio = size.width / size.height;
-  const canvasRef = useRef(null);
+  // const canvasRef = useRef(null);
 
   useEffect(() => {
     console.log('useEffect');
