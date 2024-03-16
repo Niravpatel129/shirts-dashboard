@@ -14,6 +14,7 @@ const useCustomTShirtDesigner = ({
   const [designLoaded, setDesignLoaded] = useState(false);
   const [dragStart, setDragStart] = useState(null);
   const [resizeStart, setResizeStart] = useState(null);
+  const [showGrid, setShowGrid] = useState(false);
   const [showBoundingBox, setShowBoundingBox] = useState(false);
   const [position, setPosition] = useState({
     x: (outputSize.width - boundingBoxSize.width) / 2,
@@ -43,9 +44,39 @@ const useCustomTShirtDesigner = ({
     tshirtImg.crossOrigin = 'anonymous';
     designImg.crossOrigin = 'anonymous';
 
+    const drawGrid = () => {
+      if (!showGrid) return;
+
+      const gridSize = 50;
+      const numHorizontalLines = Math.floor(canvas.height / gridSize);
+      const numVerticalLines = Math.floor(canvas.width / gridSize);
+
+      context.beginPath();
+      context.strokeStyle = 'lightgray';
+      context.lineWidth = 1;
+
+      // Draw horizontal lines
+      for (let i = 0; i <= numHorizontalLines; i++) {
+        const y = i * gridSize;
+        context.moveTo(0, y);
+        context.lineTo(canvas.width, y);
+      }
+
+      // Draw vertical lines
+      for (let i = 0; i <= numVerticalLines; i++) {
+        const x = i * gridSize;
+        context.moveTo(x, 0);
+        context.lineTo(x, canvas.height);
+      }
+
+      context.stroke();
+    };
+
     const draw = () => {
       context.clearRect(0, 0, canvas.width, canvas.height);
       context.drawImage(tshirtImg, 0, 0, canvas.width, canvas.height);
+
+      drawGrid();
 
       if (showBoundingBox || dragStart || resizeStart) {
         const boundingBox = {
@@ -176,6 +207,10 @@ const useCustomTShirtDesigner = ({
     });
   };
 
+  const toggleGrid = () => {
+    setShowGrid((prevShowGrid) => !prevShowGrid);
+  };
+
   return {
     file,
     setFile,
@@ -190,6 +225,7 @@ const useCustomTShirtDesigner = ({
     setBoundingBoxSize,
     setShowBoundingBox,
     showBoundingBox,
+    toggleGrid,
   };
 };
 

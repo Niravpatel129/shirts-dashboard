@@ -33,6 +33,7 @@ export default function Design() {
     setBoundingBoxSize,
     setShowBoundingBox,
     showBoundingBox,
+    toggleGrid,
   } = useCustomTShirtDesigner({
     backgroundColor,
     shirtImage: 'https://i.imgur.com/5q2gBIW.jpeg',
@@ -266,6 +267,14 @@ export default function Design() {
             isDisabled={!file}
           >
             Show Bounding Box {showBoundingBox ? 'On' : 'Off'}
+          </Button>
+          <Button
+            color='secondary'
+            variant='shadow'
+            onClick={() => toggleGrid()}
+            isDisabled={!file}
+          >
+            Toggle Grid
           </Button>
         </div>
       </div>
