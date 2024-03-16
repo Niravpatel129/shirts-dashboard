@@ -22,8 +22,6 @@ export default function Design() {
   const {
     file,
     setFile,
-    showIndicator,
-    setShowIndicator,
     canvasRef,
     handleExport,
     designSize,
@@ -31,8 +29,6 @@ export default function Design() {
     resizeDesign,
     repositionDesign,
     setBoundingBoxSize,
-    setShowBoundingBox,
-    showBoundingBox,
     toggleGrid,
   } = useCustomTShirtDesigner({
     backgroundColor,
