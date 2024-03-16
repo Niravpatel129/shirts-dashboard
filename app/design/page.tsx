@@ -8,8 +8,7 @@ const TestDesigns = [
   {
     name: 'Design 1',
     type: 'T-Shirt, Black',
-    image:
-      'https://owayo-cdn.com/cdn-cgi/image/format=auto,fit=contain,width=490/newhp/img/productHome/productSeitenansicht/productservice/tshirts_classic_herren_basic_productservice/st2020_whi.png',
+    image: 'https://i.imgur.com/5q2gBIW.jpeg',
   },
 ];
 
@@ -171,7 +170,7 @@ export default function Design() {
           <CustomTShirtDesigner
             canvasRef={canvasRef}
             backgroundColor={backgroundColor} // Use state variable
-            shirtImage='https://owayo-cdn.com/cdn-cgi/image/format=auto,fit=contain,width=490/newhp/img/productHome/productSeitenansicht/productservice/tshirts_classic_herren_basic_productservice/st2020_whi.png'
+            shirtImage='https://i.imgur.com/5q2gBIW.jpeg'
           />
         </div>
       </div>
