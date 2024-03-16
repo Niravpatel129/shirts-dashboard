@@ -27,29 +27,6 @@ export default function Design() {
       initialSize: { width: 100, height: 100 },
     });
 
-  // const handleExport = () => {
-  //   const canvas = canvasRef.current;
-  //   if (canvas) {
-  //     // Convert the canvas to a data URL
-  //     const dataUrl = canvas.toDataURL('image/png');
-
-  //     // Create a new design object
-  //     const newDesign = {
-  //       name: `Custom Design ${designs.length + 1}`,
-  //       type: `${shirtType}, ${color}`,
-  //       image: dataUrl,
-  //     };
-
-  //     setDesigns([...designs, newDesign]);
-
-  //     localStorage.setItem('designs', JSON.stringify([...designs, newDesign]));
-
-  //     canvas.toBlob((blob) => {
-  //       saveAs(blob, newDesign.name + '.png');
-  //     });
-  //   }
-  // };
-
   useEffect(() => {
     const savedDesigns = localStorage.getItem('designs');
 
@@ -138,7 +115,6 @@ export default function Design() {
               {(animal) => <SelectItem key={animal.value}>{animal.label}</SelectItem>}
             </Select>
           </div>
-          {/* Background Color dropdown with state */}
           <div className='input-item w-full'>
             <Select
               variant='faded'
