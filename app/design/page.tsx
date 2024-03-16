@@ -180,14 +180,7 @@ export default function Design() {
 
         {/* Your existing design panel code here */}
         <div className='design-panel'>
-          <CustomTShirtDesigner
-            file={file}
-            setFile={setFile}
-            showIndicator={showIndicator}
-            setShowIndicator={setShowIndicator}
-            canvasRef={canvasRef}
-            handleExport={handleExport}
-          />
+          <CustomTShirtDesigner file={file} setFile={setFile} canvasRef={canvasRef} />
         </div>
       </div>
       <div className='right-sidebar w-64 h-screen bg-gray-200 flex flex-col p-4'>
