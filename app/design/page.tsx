@@ -1,6 +1,5 @@
 'use client';
 import { Button, Card, CardHeader, Image, Select, SelectItem } from '@nextui-org/react';
-import { saveAs } from 'file-saver';
 import { useEffect, useState } from 'react';
 import CustomTShirtDesigner from '../components/CustomTShirtDesigner/CustomTShirtDesigner';
 import useCustomTShirtDesigner from '../hooks/useCustomTShirtDesigner';
@@ -20,37 +19,36 @@ export default function Design() {
   const [backgroundColor, setBackgroundColor] = useState('white');
   const [designs, setDesigns] = useState(TestDesigns);
 
-  const { file, setFile, showIndicator, setShowIndicator, canvasRef } = useCustomTShirtDesigner({
-    backgroundColor,
-    shirtImage: 'https://i.imgur.com/5q2gBIW.jpeg',
-    outputSize: { width: 600, height: 700 },
-    initialSize: { width: 100, height: 100 },
-  });
+  const { file, setFile, showIndicator, setShowIndicator, canvasRef, handleExport } =
+    useCustomTShirtDesigner({
+      backgroundColor,
+      shirtImage: 'https://i.imgur.com/5q2gBIW.jpeg',
+      outputSize: { width: 600, height: 700 },
+      initialSize: { width: 100, height: 100 },
+    });
 
-  const handleExport = () => {
-    const canvas = canvasRef.current;
-    if (canvas) {
-      // Convert the canvas to a data URL
-      const dataUrl = canvas.toDataURL('image/png');
+  // const handleExport = () => {
+  //   const canvas = canvasRef.current;
+  //   if (canvas) {
+  //     // Convert the canvas to a data URL
+  //     const dataUrl = canvas.toDataURL('image/png');
 
-      // Create a new design object
-      const newDesign = {
-        name: `Custom Design ${designs.length + 1}`,
-        type: `${shirtType}, ${color}`,
-        image: dataUrl,
-      };
+  //     // Create a new design object
+  //     const newDesign = {
+  //       name: `Custom Design ${designs.length + 1}`,
+  //       type: `${shirtType}, ${color}`,
+  //       image: dataUrl,
+  //     };
 
-      // Update the designs state with the new design
-      setDesigns([...designs, newDesign]);
+  //     setDesigns([...designs, newDesign]);
 
-      localStorage.setItem('designs', JSON.stringify([...designs, newDesign]));
+  //     localStorage.setItem('designs', JSON.stringify([...designs, newDesign]));
 
-      // Optional: Save the canvas image as a file (if needed)
-      canvas.toBlob((blob) => {
-        saveAs(blob, newDesign.name + '.png');
-      });
-    }
-  };
+  //     canvas.toBlob((blob) => {
+  //       saveAs(blob, newDesign.name + '.png');
+  //     });
+  //   }
+  // };
 
   useEffect(() => {
     const savedDesigns = localStorage.getItem('designs');
