@@ -18,18 +18,34 @@ export default function Design() {
   const [color, setColor] = useState('white');
   const [backgroundColor, setBackgroundColor] = useState('white');
   const [designs, setDesigns] = useState(TestDesigns);
-  const [width, setWidth] = useState(100);
-  const [length, setLength] = useState(100);
-  const [x, setX] = useState(0);
-  const [y, setY] = useState(0);
 
-  const { file, setFile, showIndicator, setShowIndicator, canvasRef, handleExport } =
-    useCustomTShirtDesigner({
-      backgroundColor,
-      shirtImage: 'https://i.imgur.com/5q2gBIW.jpeg',
-      outputSize: { width: 600, height: 700 },
-      initialSize: { width, height: length },
-    });
+  const {
+    file,
+    setFile,
+    showIndicator,
+    setShowIndicator,
+    canvasRef,
+    handleExport,
+    designSize,
+    designPosition,
+  } = useCustomTShirtDesigner({
+    backgroundColor,
+    shirtImage: 'https://i.imgur.com/5q2gBIW.jpeg',
+    outputSize: { width: 600, height: 700 },
+    initialSize: { width: 200, height: 200 },
+  });
+
+  const [width, setWidth] = useState(designSize.width);
+  const [length, setLength] = useState(designSize.height);
+  const [x, setX] = useState(designPosition.x);
+  const [y, setY] = useState(designPosition.y);
+
+  useEffect(() => {
+    setWidth(designSize.width);
+    setLength(designSize.height);
+    setX(designPosition.x);
+    setY(designPosition.y);
+  }, [designSize, designPosition]);
 
   useEffect(() => {
     const savedDesigns = localStorage.getItem('designs');

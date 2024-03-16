@@ -171,6 +171,8 @@ const useCustomTShirtDesigner = ({
     setShowIndicator,
     canvasRef,
     handleExport,
+    designPosition: position, // Added line
+    designSize: size, // Added line
   };
 };
 
