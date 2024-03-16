@@ -215,7 +215,13 @@ const useCustomTShirtDesigner = ({
     aspectRatio,
   ]);
 
-  const handleExport = () => {
+  const handleExport = async () => {
+    // disable controls and grid
+    setShowControls(false);
+    setShowGrid(false);
+    // wait for the next render to take the screenshot
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
     const canvas = canvasRef.current;
     canvas.toBlob((blob) => {
       saveAs(blob, 'custom-t-shirt.png');
