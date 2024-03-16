@@ -158,7 +158,7 @@ export default function Design() {
                 { value: 'red', label: 'red' },
               ]}
               defaultSelectedKeys={['white']}
-              label='Color'
+              label='Shirt Color'
               placeholder='Select a color'
               value={color} // Bind state variable
               onChange={(e) => setColor(e.target.value)} // Update state on change
