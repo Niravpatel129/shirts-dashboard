@@ -1,5 +1,6 @@
 // useCustomTShirtDesigner.js
 import { useEffect, useRef, useState } from 'react';
+const SNAP_THRESHOLD = 5; // Adjust this value as needed
 
 const useCustomTShirtDesigner = ({
   backgroundColor = 'white',
@@ -97,6 +98,25 @@ const useCustomTShirtDesigner = ({
       context.stroke();
     };
 
+    const drawCenterLines = () => {
+      const canvasCenterX = canvas.width / 2;
+      const canvasCenterY = canvas.height / 2;
+
+      context.beginPath();
+      context.strokeStyle = 'blue'; // Set the color of the center lines
+      context.lineWidth = 1;
+
+      // Draw vertical center line
+      context.moveTo(canvasCenterX, 0);
+      context.lineTo(canvasCenterX, canvas.height);
+
+      // Draw horizontal center line
+      context.moveTo(0, canvasCenterY);
+      context.lineTo(canvas.width, canvasCenterY);
+
+      context.stroke();
+    };
+
     const draw = () => {
       context.clearRect(0, 0, canvas.width, canvas.height);
       context.drawImage(tshirtImg, 0, 0, canvas.width, canvas.height);
@@ -132,6 +152,11 @@ const useCustomTShirtDesigner = ({
         context.drawImage(tempCanvas, position.x, position.y);
 
         if (showControls) {
+          // only if dragging
+          if (dragStart) {
+            drawCenterLines();
+          }
+
           const handleSize = 10;
           const handleX = position.x + size.width - handleSize / 2;
           const handleY = position.y + size.height - handleSize / 2;
@@ -188,16 +213,39 @@ const useCustomTShirtDesigner = ({
       const mouseY = e.clientY - rect.top;
 
       if (dragStart) {
+        const canvasCenterX = canvas.width / 2;
+        const canvasCenterY = canvas.height / 2;
+
+        let newPosX = mouseX - dragStart.x;
+        let newPosY = mouseY - dragStart.y;
+
+        // Check if the design is close to the center horizontally
+        if (
+          newPosX >= canvasCenterX - size.width / 2 - SNAP_THRESHOLD &&
+          newPosX <= canvasCenterX - size.width / 2 + SNAP_THRESHOLD
+        ) {
+          newPosX = canvasCenterX - size.width / 2;
+        }
+
+        // Check if the design is close to the center vertically
+        if (
+          newPosY >= canvasCenterY - size.height / 2 - SNAP_THRESHOLD &&
+          newPosY <= canvasCenterY - size.height / 2 + SNAP_THRESHOLD
+        ) {
+          newPosY = canvasCenterY - size.height / 2;
+        }
+
         const newPos = {
           x: Math.min(
-            Math.max((canvas.width - boundingBoxSize.width) / 2, mouseX - dragStart.x),
+            Math.max((canvas.width - boundingBoxSize.width) / 2, newPosX),
             (canvas.width + boundingBoxSize.width) / 2 - size.width,
           ),
           y: Math.min(
-            Math.max((canvas.height - boundingBoxSize.height) / 2, mouseY - dragStart.y),
+            Math.max((canvas.height - boundingBoxSize.height) / 2, newPosY),
             (canvas.height + boundingBoxSize.height) / 2 - size.height,
           ),
         };
+
         setPosition(newPos);
         draw();
       } else if (resizeStart) {
