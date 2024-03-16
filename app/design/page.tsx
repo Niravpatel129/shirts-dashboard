@@ -29,6 +29,8 @@ export default function Design() {
     resizeDesign,
     repositionDesign,
     setBoundingBoxSize,
+    updateBlendingMode,
+    blendingMode,
     toggleGrid,
   } = useCustomTShirtDesigner({
     backgroundColor,
@@ -250,6 +252,38 @@ export default function Design() {
           >
             Toggle Grid
           </Button>
+
+          {/* Blending Mode Dropdown */}
+          <Select
+            variant='faded'
+            items={[
+              { value: 'source-over', label: 'Default' },
+              { value: 'lighten', label: 'Lighten' },
+              { value: 'multiply', label: 'Multiply' },
+              { value: 'screen', label: 'Screen' },
+              { value: 'overlay', label: 'Overlay' },
+              { value: 'darken', label: 'Darken' },
+              { value: 'color-dodge', label: 'Color Dodge' },
+              { value: 'color-burn', label: 'Color Burn' },
+              { value: 'hard-light', label: 'Hard Light' },
+              { value: 'soft-light', label: 'Soft Light' },
+              { value: 'difference', label: 'Difference' },
+              { value: 'exclusion', label: 'Exclusion' },
+              { value: 'hue', label: 'Hue' },
+              { value: 'saturation', label: 'Saturation' },
+              { value: 'color', label: 'Color' },
+              { value: 'luminosity', label: 'Luminosity' },
+            ]}
+            label='Blending Mode'
+            placeholder='Select a blending mode'
+            value={blendingMode} // Bind the current blending mode state
+            onChange={(e) => updateBlendingMode(e.target.value)} // Update blending mode on change
+            className=''
+            color='secondary'
+            isDisabled={!file}
+          >
+            {(mode) => <SelectItem key={mode.value}>{mode.label}</SelectItem>}
+          </Select>
         </div>
       </div>
     </div>

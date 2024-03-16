@@ -6,6 +6,7 @@ const useCustomTShirtDesigner = ({
   shirtImage,
   outputSize = { width: 700, height: 700 },
   initialSize = { width: 100, height: 100 },
+  initialBlendingMode = 'source-over', // default blending mode
 }) => {
   const canvasRef = useRef(null);
   const [boundingBoxSize, setBoundingBoxSize] = useState({ width: 250, height: 250 });
@@ -21,6 +22,7 @@ const useCustomTShirtDesigner = ({
   });
   const [size, setSize] = useState(initialSize);
   const aspectRatio = size.width / size.height;
+  const [blendingMode, setBlendingMode] = useState(initialBlendingMode);
 
   useEffect(() => {
     // center design to the bounding box
@@ -90,7 +92,21 @@ const useCustomTShirtDesigner = ({
       }
 
       if (designLoaded) {
-        context.drawImage(designImg, position.x, position.y, size.width, size.height);
+        // Create a temporary canvas
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = size.width;
+        tempCanvas.height = size.height;
+        const tempCtx = tempCanvas.getContext('2d');
+
+        // Draw the design on the temporary canvas
+        tempCtx.drawImage(designImg, 0, 0, size.width, size.height);
+
+        // Set the blending mode on the main canvas
+        context.globalCompositeOperation = blendingMode;
+
+        // Draw the temporary canvas onto the main canvas with the specified blending mode
+        context.drawImage(tempCanvas, position.x, position.y);
+
         if (showControls) {
           const handleSize = 10;
           const handleX = position.x + size.width - handleSize / 2;
@@ -214,6 +230,7 @@ const useCustomTShirtDesigner = ({
     dragStart,
     resizeStart,
     aspectRatio,
+    blendingMode, // Add blendingMode to the dependency array
   ]);
 
   const handleExport = async () => {
@@ -233,6 +250,11 @@ const useCustomTShirtDesigner = ({
     setShowGrid((prevShowGrid) => !prevShowGrid);
   };
 
+  // Add a function to update the blending mode
+  const updateBlendingMode = (newBlendingMode) => {
+    setBlendingMode(newBlendingMode);
+  };
+
   return {
     file,
     setFile,
@@ -244,6 +266,8 @@ const useCustomTShirtDesigner = ({
     repositionDesign: setPosition,
     setBoundingBoxSize,
     toggleGrid,
+    blendingMode,
+    updateBlendingMode, // Expose the updateBlendingMode function
   };
 };
 
