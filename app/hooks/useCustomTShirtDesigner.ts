@@ -289,7 +289,7 @@ const useCustomTShirtDesigner = ({
         y: (position.y * outputSize.height) / canvasRef.current.height,
       };
 
-      exportCtx.globalCompositeOperation = blendingMode;
+      exportCtx.globalCompositeOperation = blendingMode as GlobalCompositeOperation;
       exportCtx.drawImage(
         designImg,
         exportPosition.x,
@@ -316,7 +316,7 @@ const useCustomTShirtDesigner = ({
   };
 
   // Add a function to update the blending mode
-  const updateBlendingMode = (newBlendingMode) => {
+  const updateBlendingMode = (newBlendingMode: GlobalCompositeOperation) => {
     setBlendingMode(newBlendingMode);
   };
 
@@ -332,7 +332,7 @@ const useCustomTShirtDesigner = ({
     setBoundingBoxSize,
     toggleGrid,
     blendingMode,
-    updateBlendingMode, // Expose the updateBlendingMode function
+    updateBlendingMode,
   };
 };
 
