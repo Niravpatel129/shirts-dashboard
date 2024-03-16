@@ -23,12 +23,6 @@ const CustomTShirtDesigner = ({
           display: 'block',
         }}
       ></canvas>
-      {/* {file && (
-        <Button onClick={() => setShowIndicator(!showIndicator)}>
-          Show Resize Indicator {showIndicator ? 'On' : 'Off'}
-        </Button>
-      )} */}
-      {/* <Button onClick={handleExport}>Export Design</Button> */}
     </div>
   );
 };
