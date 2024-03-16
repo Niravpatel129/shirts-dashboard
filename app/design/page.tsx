@@ -167,10 +167,6 @@ export default function Design() {
             setShowIndicator={setShowIndicator}
             canvasRef={canvasRef}
             handleExport={handleExport}
-            width={width}
-            height={length}
-            x={x}
-            y={y}
           />
         </div>
       </div>
@@ -182,7 +178,7 @@ export default function Design() {
             type='number'
             placeholder='Enter width'
             className='w-full'
-            value={width}
+            value={width.toString()}
             onChange={(e) => setWidth(parseInt(e.target.value))}
           />
         </div>
@@ -192,7 +188,7 @@ export default function Design() {
             type='number'
             placeholder='Enter length'
             className='w-full'
-            value={length}
+            value={length.toString()}
             onChange={(e) => setLength(parseInt(e.target.value))}
           />
         </div>
@@ -202,7 +198,7 @@ export default function Design() {
             type='number'
             placeholder='Enter X value'
             className='w-full'
-            value={x}
+            value={x.toString()}
             onChange={(e) => setX(parseInt(e.target.value))}
           />
         </div>
@@ -212,7 +208,7 @@ export default function Design() {
             type='number'
             placeholder='Enter Y value'
             className='w-full'
-            value={y}
+            value={y.toString()}
             onChange={(e) => setY(parseInt(e.target.value))}
           />
         </div>
