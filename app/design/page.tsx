@@ -1,3 +1,4 @@
+// Design.js
 'use client';
 import {
   Button,
@@ -47,8 +48,7 @@ export default function Design() {
   } = useCustomTShirtDesigner({
     backgroundColor,
     shirtImage: 'https://i.imgur.com/5q2gBIW.jpeg',
-    outputSize: { width: 600, height: 700 },
-    initialSize: { width: 100, height: 100 },
+    outputSize: { width: 1600, height: 1600 }, // Update the output size here
   });
 
   const [width, setWidth] = useState(designSize.width);
@@ -105,7 +105,6 @@ export default function Design() {
       </div>
     );
   }
-
   return (
     <div className='flex'>
       <div className='sidebar w-64 h-screen text-white flex flex-col items-center'>
@@ -131,7 +130,6 @@ export default function Design() {
       </div>
       <div className='flex-grow min-h-screen flex flex-col items-center'>
         <div className='inputs flex justify-between w-full mb-5 gap-5 p-2'>
-          {/* Shirt Type dropdown with state */}
           <div className='input-item w-full'>
             <Select
               defaultSelectedKeys={['t-shirt']}
@@ -151,7 +149,6 @@ export default function Design() {
               {(animal) => <SelectItem key={animal.value}>{animal.label}</SelectItem>}
             </Select>
           </div>
-          {/* Color dropdown with state */}
           <div className='input-item w-full'>
             <Select
               variant='faded'
@@ -189,7 +186,6 @@ export default function Design() {
               {(animal) => <SelectItem key={animal.value}>{animal.label}</SelectItem>}
             </Select>
           </div>
-          {/* Your existing Button component */}
           <div className='input-item w-full flex justify-end'>
             <Button
               onClick={handleExport}
@@ -200,7 +196,6 @@ export default function Design() {
             </Button>
           </div>
         </div>
-
         {/* Your existing design panel code here */}
         <div className='design-panel'>
           <CustomTShirtDesigner file={file} setFile={setFile} canvasRef={canvasRef} />
@@ -302,7 +297,7 @@ export default function Design() {
             label='Blending Mode'
             placeholder='Select a blending mode'
             value={blendingMode} // Bind the current blending mode state
-            onChange={(e) => updateBlendingMode(e.target.value)} // Update blending mode on change
+            onChange={(e) => updateBlendingMode(e.target.value as any)} // Update blending mode on change
             className=''
             color='secondary'
             isDisabled={!file}

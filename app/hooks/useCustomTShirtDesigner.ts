@@ -1,9 +1,10 @@
+// useCustomTShirtDesigner.js
 import { useEffect, useRef, useState } from 'react';
 
 const useCustomTShirtDesigner = ({
   backgroundColor = 'white',
   shirtImage,
-  outputSize = { width: 700, height: 700 },
+  outputSize = { width: 1600, height: 1600 },
   initialBlendingMode = 'source-over', // default blending mode
 }) => {
   const canvasRef = useRef(null);
@@ -262,11 +263,44 @@ const useCustomTShirtDesigner = ({
     // disable controls and grid
     setShowControls(false);
     setShowGrid(false);
-    // wait for the next render to take the screenshot
-    await new Promise((resolve) => setTimeout(resolve, 100));
 
-    const canvas = canvasRef.current;
-    const dataURL = canvas.toDataURL('image/png', 1.0); // Get the data URL with maximum quality (1.0)
+    // Create a new canvas with the desired output size
+    const exportCanvas = document.createElement('canvas');
+    exportCanvas.width = outputSize.width;
+    exportCanvas.height = outputSize.height;
+    const exportCtx = exportCanvas.getContext('2d');
+
+    // Draw the t-shirt image on the export canvas
+    const tshirtImg = new Image();
+    tshirtImg.crossOrigin = 'anonymous';
+    tshirtImg.src = shirtImage;
+    await new Promise((resolve) => (tshirtImg.onload = resolve));
+    exportCtx.drawImage(tshirtImg, 0, 0, outputSize.width, outputSize.height);
+
+    // Draw the design on the export canvas
+    if (designLoaded) {
+      const designImg = designImgRef.current;
+      const exportDesignSize = {
+        width: (size.width * outputSize.width) / canvasRef.current.width,
+        height: (size.height * outputSize.height) / canvasRef.current.height,
+      };
+      const exportPosition = {
+        x: (position.x * outputSize.width) / canvasRef.current.width,
+        y: (position.y * outputSize.height) / canvasRef.current.height,
+      };
+
+      exportCtx.globalCompositeOperation = blendingMode;
+      exportCtx.drawImage(
+        designImg,
+        exportPosition.x,
+        exportPosition.y,
+        exportDesignSize.width,
+        exportDesignSize.height,
+      );
+    }
+
+    // Get the data URL of the export canvas
+    const dataURL = exportCanvas.toDataURL('image/png', 1.0);
 
     // Create a temporary link element
     const link = document.createElement('a');
