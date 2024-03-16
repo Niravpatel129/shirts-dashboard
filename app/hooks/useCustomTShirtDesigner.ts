@@ -9,7 +9,6 @@ const useCustomTShirtDesigner = ({
 }) => {
   const canvasRef = useRef(null);
   const [boundingBoxSize, setBoundingBoxSize] = useState({ width: 250, height: 250 });
-  // const boundingBoxSize = { width: 250, height: 250 };
   const [file, setFile] = useState('');
   const [showIndicator, setShowIndicator] = useState(false);
   const [designLoaded, setDesignLoaded] = useState(false);
@@ -22,6 +21,17 @@ const useCustomTShirtDesigner = ({
   });
   const [size, setSize] = useState(initialSize);
   const aspectRatio = size.width / size.height;
+
+  useEffect(() => {
+    // center design to the bounding box
+    const canvas = canvasRef.current;
+    const { width, height } = canvas;
+    const x = (width - size.width) / 2;
+    const y = (height - size.height) / 2;
+    setPosition({ x, y });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [file]);
 
   useEffect(() => {
     const canvas = canvasRef.current;

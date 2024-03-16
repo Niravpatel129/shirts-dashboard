@@ -37,7 +37,7 @@ export default function Design() {
     backgroundColor,
     shirtImage: 'https://i.imgur.com/5q2gBIW.jpeg',
     outputSize: { width: 600, height: 700 },
-    initialSize: { width: 200, height: 200 },
+    initialSize: { width: 100, height: 100 },
   });
 
   const [width, setWidth] = useState(designSize.width);
