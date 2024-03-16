@@ -191,8 +191,19 @@ const useCustomTShirtDesigner = ({
         let newHeight = newWidth / aspectRatio;
 
         // Constrain to bounding box
-        newWidth = Math.min(newWidth, (canvas.width + boundingBoxSize.width) / 2 - position.x);
-        newHeight = Math.min(newHeight, (canvas.height + boundingBoxSize.height) / 2 - position.y);
+        const maxWidth = (canvas.width + boundingBoxSize.width) / 2 - position.x;
+        const maxHeight = (canvas.height + boundingBoxSize.height) / 2 - position.y;
+
+        // Prevent resizing beyond the bounding box while maintaining aspect ratio
+        if (newWidth > maxWidth) {
+          newWidth = maxWidth;
+          newHeight = newWidth / aspectRatio;
+        }
+
+        if (newHeight > maxHeight) {
+          newHeight = maxHeight;
+          newWidth = newHeight * aspectRatio;
+        }
 
         setSize({
           width: Math.max(50, newWidth),
