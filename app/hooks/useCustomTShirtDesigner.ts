@@ -202,6 +202,7 @@ const useCustomTShirtDesigner = ({
       canvas.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     backgroundColor,
     file,
