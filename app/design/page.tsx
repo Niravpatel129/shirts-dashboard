@@ -258,8 +258,8 @@ export default function Design() {
             variant='faded'
             items={[
               { value: 'source-over', label: 'Default' },
-              { value: 'lighten', label: 'Lighten' },
-              { value: 'multiply', label: 'Multiply' },
+              { value: 'lighten', label: 'Knockout White' },
+              { value: 'multiply', label: 'Knockout Black' },
             ]}
             label='Blending Mode'
             placeholder='Select a blending mode'
