@@ -1,4 +1,3 @@
-import { saveAs } from 'file-saver';
 import { useEffect, useRef, useState } from 'react';
 
 const useCustomTShirtDesigner = ({
@@ -267,9 +266,15 @@ const useCustomTShirtDesigner = ({
     await new Promise((resolve) => setTimeout(resolve, 100));
 
     const canvas = canvasRef.current;
-    canvas.toBlob((blob) => {
-      saveAs(blob, 'custom-t-shirt.png');
-    });
+    const dataURL = canvas.toDataURL('image/png', 1.0); // Get the data URL with maximum quality (1.0)
+
+    // Create a temporary link element
+    const link = document.createElement('a');
+    link.href = dataURL;
+    link.download = 'custom-t-shirt.png';
+
+    // Trigger the download
+    link.click();
   };
 
   const toggleGrid = () => {
