@@ -29,7 +29,7 @@ const CustomTShirtDesigner = ({
           Show Resize Indicator {showIndicator ? 'On' : 'Off'}
         </Button>
       )}
-      <Button onClick={handleExport}>Export Design</Button>
+      {/* <Button onClick={handleExport}>Export Design</Button> */}
     </div>
   );
 };

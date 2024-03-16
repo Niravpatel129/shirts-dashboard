@@ -8,7 +8,8 @@ const useCustomTShirtDesigner = ({
   initialSize = { width: 100, height: 100 },
 }) => {
   const canvasRef = useRef(null);
-  const boundingBoxSize = { width: 250, height: 250 };
+  const [boundingBoxSize, setBoundingBoxSize] = useState({ width: 250, height: 250 });
+  // const boundingBoxSize = { width: 250, height: 250 };
   const [file, setFile] = useState('');
   const [showIndicator, setShowIndicator] = useState(false);
   const [designLoaded, setDesignLoaded] = useState(false);
@@ -171,8 +172,11 @@ const useCustomTShirtDesigner = ({
     setShowIndicator,
     canvasRef,
     handleExport,
-    designPosition: position, // Added line
-    designSize: size, // Added line
+    designPosition: position,
+    designSize: size,
+    resizeDesign: setSize,
+    repositionDesign: setPosition,
+    setBoundingBoxSize,
   };
 };
 

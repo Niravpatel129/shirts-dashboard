@@ -28,6 +28,9 @@ export default function Design() {
     handleExport,
     designSize,
     designPosition,
+    resizeDesign,
+    repositionDesign,
+    setBoundingBoxSize,
   } = useCustomTShirtDesigner({
     backgroundColor,
     shirtImage: 'https://i.imgur.com/5q2gBIW.jpeg',
@@ -63,12 +66,14 @@ export default function Design() {
   }, []);
 
   const handleCenterAlign = () => {
-    const canvasWidth = canvasRef.current.width;
-    const canvasHeight = canvasRef.current.height;
-    const centeredX = (canvasWidth - width) / 2;
-    const centeredY = (canvasHeight - length) / 2;
-    setX(centeredX);
-    setY(centeredY);
+    // align design to center
+    const canvas = canvasRef.current;
+    const { width, height } = canvas;
+    const { width: designWidth, height: designHeight } = designSize;
+    const x = (width - designWidth) / 2;
+    const y = (height - designHeight) / 2;
+
+    repositionDesign({ x, y });
   };
 
   if (isMobile) {
@@ -195,7 +200,10 @@ export default function Design() {
             placeholder='Enter width'
             className='w-full'
             value={width.toString()}
-            onChange={(e) => setWidth(parseInt(e.target.value))}
+            onChange={(e) => {
+              resizeDesign({ width: parseInt(e.target.value), height: length });
+              setWidth(parseInt(e.target.value));
+            }}
           />
         </div>
         <div className='mb-4'>
@@ -205,7 +213,10 @@ export default function Design() {
             placeholder='Enter length'
             className='w-full'
             value={length.toString()}
-            onChange={(e) => setLength(parseInt(e.target.value))}
+            onChange={(e) => {
+              resizeDesign({ width, height: parseInt(e.target.value) });
+              setLength(parseInt(e.target.value));
+            }}
           />
         </div>
         <div className='mb-4'>
@@ -215,7 +226,10 @@ export default function Design() {
             placeholder='Enter X value'
             className='w-full'
             value={x.toString()}
-            onChange={(e) => setX(parseInt(e.target.value))}
+            onChange={(e) => {
+              repositionDesign({ x: parseInt(e.target.value), y });
+              setX(parseInt(e.target.value));
+            }}
           />
         </div>
         <div className='mb-4'>
@@ -225,7 +239,10 @@ export default function Design() {
             placeholder='Enter Y value'
             className='w-full'
             value={y.toString()}
-            onChange={(e) => setY(parseInt(e.target.value))}
+            onChange={(e) => {
+              repositionDesign({ x, y: parseInt(e.target.value) });
+              setY(parseInt(e.target.value));
+            }}
           />
         </div>
         <Button className='bg-blue-500 text-white' onClick={handleCenterAlign}>
