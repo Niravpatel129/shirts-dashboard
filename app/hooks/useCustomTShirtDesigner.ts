@@ -148,8 +148,21 @@ const useCustomTShirtDesigner = ({
         // Set the blending mode on the main canvas
         context.globalCompositeOperation = blendingMode;
 
+        // Clip the design to the bounding box
+        context.save();
+        context.beginPath();
+        context.rect(
+          (canvas.width - boundingBoxSize.width) / 2,
+          (canvas.height - boundingBoxSize.height) / 2,
+          boundingBoxSize.width,
+          boundingBoxSize.height,
+        );
+        context.clip();
+
         // Draw the temporary canvas onto the main canvas with the specified blending mode
         context.drawImage(tempCanvas, position.x, position.y);
+
+        context.restore();
 
         if (showControls) {
           // only if dragging
@@ -236,14 +249,8 @@ const useCustomTShirtDesigner = ({
         }
 
         const newPos = {
-          x: Math.min(
-            Math.max((canvas.width - boundingBoxSize.width) / 2, newPosX),
-            (canvas.width + boundingBoxSize.width) / 2 - size.width,
-          ),
-          y: Math.min(
-            Math.max((canvas.height - boundingBoxSize.height) / 2, newPosY),
-            (canvas.height + boundingBoxSize.height) / 2 - size.height,
-          ),
+          x: newPosX,
+          y: newPosY,
         };
 
         setPosition(newPos);
@@ -253,21 +260,6 @@ const useCustomTShirtDesigner = ({
         const dy = mouseY - resizeStart.y;
         let newWidth = size.width + dx;
         let newHeight = newWidth / aspectRatio;
-
-        // Constrain to bounding box
-        const maxWidth = (canvas.width + boundingBoxSize.width) / 2 - position.x;
-        const maxHeight = (canvas.height + boundingBoxSize.height) / 2 - position.y;
-
-        // Prevent resizing beyond the bounding box while maintaining aspect ratio
-        if (newWidth > maxWidth) {
-          newWidth = maxWidth;
-          newHeight = newWidth / aspectRatio;
-        }
-
-        if (newHeight > maxHeight) {
-          newHeight = maxHeight;
-          newWidth = newHeight * aspectRatio;
-        }
 
         setSize({
           width: Math.max(50, newWidth),
