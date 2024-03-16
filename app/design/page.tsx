@@ -1,5 +1,17 @@
 'use client';
-import { Button, Card, CardHeader, Image, Input, Select, SelectItem } from '@nextui-org/react';
+import {
+  Button,
+  Card,
+  CardHeader,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Image,
+  Input,
+  Select,
+  SelectItem,
+} from '@nextui-org/react';
 import { useEffect, useState } from 'react';
 import CustomTShirtDesigner from '../components/CustomTShirtDesigner/CustomTShirtDesigner';
 import useCustomTShirtDesigner from '../hooks/useCustomTShirtDesigner';
@@ -66,13 +78,22 @@ export default function Design() {
     }
   }, []);
 
-  const handleCenterAlign = () => {
-    // align design to center
+  const handleVerticalAlign = () => {
+    // align design vertically
     const canvas = canvasRef.current;
-    const { width, height } = canvas;
-    const { width: designWidth, height: designHeight } = designSize;
-    const x = (width - designWidth) / 2;
+    const { height } = canvas;
+    const { height: designHeight } = designSize;
     const y = (height - designHeight) / 2;
+
+    repositionDesign({ x, y });
+  };
+
+  const handleHorizontalAlign = () => {
+    // align design horizontally
+    const canvas = canvasRef.current;
+    const { width } = canvas;
+    const { width: designWidth } = designSize;
+    const x = (width - designWidth) / 2;
 
     repositionDesign({ x, y });
   };
@@ -240,9 +261,26 @@ export default function Design() {
           />
         </div>
         <div className='flex flex-col w-full gap-3'>
-          <Button variant='shadow' onClick={handleCenterAlign} color='primary' isDisabled={!file}>
-            Center Align
-          </Button>
+          <Dropdown>
+            <DropdownTrigger>
+              <Button variant='shadow' color='primary' isDisabled={!file} className='w-full'>
+                Align
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu
+              aria-label='Alignment Options'
+              onAction={(key) => {
+                if (key === 'vertical') {
+                  handleVerticalAlign();
+                } else if (key === 'horizontal') {
+                  handleHorizontalAlign();
+                }
+              }}
+            >
+              <DropdownItem key='vertical'>Vertical</DropdownItem>
+              <DropdownItem key='horizontal'>Horizontal</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
 
           <Button
             color='secondary'
