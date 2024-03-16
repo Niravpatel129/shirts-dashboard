@@ -1,8 +1,9 @@
 'use client';
 import { Button, Card, CardHeader, Image, Select, SelectItem } from '@nextui-org/react';
 import { saveAs } from 'file-saver';
-import { useEffect, useRef, useState } from 'react'; // Import useState from React
+import { useEffect, useState } from 'react';
 import CustomTShirtDesigner from '../components/CustomTShirtDesigner/CustomTShirtDesigner';
+import useCustomTShirtDesigner from '../hooks/useCustomTShirtDesigner';
 
 const TestDesigns = [
   {
@@ -14,12 +15,17 @@ const TestDesigns = [
 
 export default function Design() {
   const [isMobile, setIsMobile] = useState(false);
-
   const [shirtType, setShirtType] = useState('t-shirt');
   const [color, setColor] = useState('white');
   const [backgroundColor, setBackgroundColor] = useState('white');
-  const canvasRef = useRef(null);
   const [designs, setDesigns] = useState(TestDesigns);
+
+  const { file, setFile, showIndicator, setShowIndicator, canvasRef } = useCustomTShirtDesigner({
+    backgroundColor,
+    shirtImage: 'https://i.imgur.com/5q2gBIW.jpeg',
+    outputSize: { width: 600, height: 700 },
+    initialSize: { width: 100, height: 100 },
+  });
 
   const handleExport = () => {
     const canvas = canvasRef.current;
@@ -168,9 +174,12 @@ export default function Design() {
         {/* Your existing design panel code here */}
         <div className='design-panel'>
           <CustomTShirtDesigner
+            file={file}
+            setFile={setFile}
+            showIndicator={showIndicator}
+            setShowIndicator={setShowIndicator}
             canvasRef={canvasRef}
-            backgroundColor={backgroundColor} // Use state variable
-            shirtImage='https://i.imgur.com/5q2gBIW.jpeg'
+            handleExport={handleExport}
           />
         </div>
       </div>
