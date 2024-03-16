@@ -1,4 +1,3 @@
-import { Button } from '@nextui-org/react';
 import FileBase64 from 'react-file-base64';
 
 const CustomTShirtDesigner = ({
@@ -24,11 +23,11 @@ const CustomTShirtDesigner = ({
           display: 'block',
         }}
       ></canvas>
-      {file && (
+      {/* {file && (
         <Button onClick={() => setShowIndicator(!showIndicator)}>
           Show Resize Indicator {showIndicator ? 'On' : 'Off'}
         </Button>
-      )}
+      )} */}
       {/* <Button onClick={handleExport}>Export Design</Button> */}
     </div>
   );

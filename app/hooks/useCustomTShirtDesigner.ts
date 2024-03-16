@@ -15,6 +15,7 @@ const useCustomTShirtDesigner = ({
   const [designLoaded, setDesignLoaded] = useState(false);
   const [dragStart, setDragStart] = useState(null);
   const [resizeStart, setResizeStart] = useState(null);
+  const [showBoundingBox, setShowBoundingBox] = useState(false);
   const [position, setPosition] = useState({
     x: (outputSize.width - boundingBoxSize.width) / 2,
     y: (outputSize.height - boundingBoxSize.height) / 2,
@@ -36,7 +37,7 @@ const useCustomTShirtDesigner = ({
       context.clearRect(0, 0, canvas.width, canvas.height);
       context.drawImage(tshirtImg, 0, 0, canvas.width, canvas.height);
 
-      if (dragStart || resizeStart) {
+      if (showBoundingBox || dragStart || resizeStart) {
         const boundingBox = {
           x: (canvas.width - boundingBoxSize.width) / 2,
           y: (canvas.height - boundingBoxSize.height) / 2,
@@ -177,6 +178,8 @@ const useCustomTShirtDesigner = ({
     resizeDesign: setSize,
     repositionDesign: setPosition,
     setBoundingBoxSize,
+    setShowBoundingBox,
+    showBoundingBox,
   };
 };
 

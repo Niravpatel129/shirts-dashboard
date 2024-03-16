@@ -31,6 +31,8 @@ export default function Design() {
     resizeDesign,
     repositionDesign,
     setBoundingBoxSize,
+    setShowBoundingBox,
+    showBoundingBox,
   } = useCustomTShirtDesigner({
     backgroundColor,
     shirtImage: 'https://i.imgur.com/5q2gBIW.jpeg',
@@ -245,9 +247,27 @@ export default function Design() {
             }}
           />
         </div>
-        <Button className='bg-blue-500 text-white' onClick={handleCenterAlign}>
-          Center Align
-        </Button>
+        <div className='flex flex-col w-full gap-3'>
+          <Button variant='shadow' onClick={handleCenterAlign} color='primary' isDisabled={!file}>
+            Center Align
+          </Button>
+          <Button
+            variant='shadow'
+            color='danger'
+            onClick={() => setShowIndicator(!showIndicator)}
+            isDisabled={!file}
+          >
+            Show Resize Indicator {showIndicator ? 'On' : 'Off'}
+          </Button>
+          <Button
+            color='secondary'
+            variant='shadow'
+            onClick={() => setShowBoundingBox(!showBoundingBox)}
+            isDisabled={!file}
+          >
+            Show Bounding Box {showBoundingBox ? 'On' : 'Off'}
+          </Button>
+        </div>
       </div>
     </div>
   );
