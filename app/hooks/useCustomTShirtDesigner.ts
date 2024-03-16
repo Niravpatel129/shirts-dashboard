@@ -23,6 +23,7 @@ const useCustomTShirtDesigner = ({
   const [size, setSize] = useState(initialSize);
   const aspectRatio = size.width / size.height;
   const [blendingMode, setBlendingMode] = useState(initialBlendingMode);
+  const [designImg] = useState(new Image());
 
   useEffect(() => {
     // center design to the bounding box
@@ -40,7 +41,6 @@ const useCustomTShirtDesigner = ({
     canvas.style.backgroundColor = backgroundColor;
     const context = canvas.getContext('2d');
     const tshirtImg = new Image();
-    const designImg = new Image();
 
     tshirtImg.crossOrigin = 'anonymous';
     designImg.crossOrigin = 'anonymous';
@@ -119,11 +119,14 @@ const useCustomTShirtDesigner = ({
     tshirtImg.onload = draw;
     tshirtImg.src = shirtImage;
 
+    // Move the designImg.onload event outside the useEffect
+    designImg.onload = () => {
+      console.log('Design loaded');
+      setDesignLoaded(true);
+      draw();
+    };
+
     if (file) {
-      designImg.onload = () => {
-        setDesignLoaded(true);
-        draw();
-      };
       designImg.src = file;
     }
 
