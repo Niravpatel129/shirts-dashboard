@@ -10,12 +10,11 @@ const useCustomTShirtDesigner = ({
   const canvasRef = useRef(null);
   const [boundingBoxSize, setBoundingBoxSize] = useState({ width: 250, height: 250 });
   const [file, setFile] = useState('');
-  const [showIndicator, setShowIndicator] = useState(false);
   const [designLoaded, setDesignLoaded] = useState(false);
   const [dragStart, setDragStart] = useState(null);
   const [resizeStart, setResizeStart] = useState(null);
   const [showGrid, setShowGrid] = useState(false);
-  const [showBoundingBox, setShowBoundingBox] = useState(false);
+  const [showControls, setShowControls] = useState(false);
   const [position, setPosition] = useState({
     x: (outputSize.width - boundingBoxSize.width) / 2,
     y: (outputSize.height - boundingBoxSize.height) / 2,
@@ -78,7 +77,7 @@ const useCustomTShirtDesigner = ({
 
       drawGrid();
 
-      if (showBoundingBox || dragStart || resizeStart) {
+      if (showControls) {
         const boundingBox = {
           x: (canvas.width - boundingBoxSize.width) / 2,
           y: (canvas.height - boundingBoxSize.height) / 2,
@@ -92,11 +91,12 @@ const useCustomTShirtDesigner = ({
 
       if (designLoaded) {
         context.drawImage(designImg, position.x, position.y, size.width, size.height);
-        const handleSize = 10;
-        const handleX = position.x + size.width - handleSize / 2;
-        const handleY = position.y + size.height - handleSize / 2;
-        context.fillRect(handleX, handleY, handleSize, handleSize);
-        context.fillStyle = !showIndicator ? 'transparent' : 'blue';
+        if (showControls) {
+          const handleSize = 10;
+          const handleX = position.x + size.width - handleSize / 2;
+          const handleY = position.y + size.height - handleSize / 2;
+          context.fillRect(handleX, handleY, handleSize, handleSize);
+        }
       }
     };
 
@@ -115,6 +115,7 @@ const useCustomTShirtDesigner = ({
       const rect = canvas.getBoundingClientRect();
       const mouseX = e.clientX - rect.left;
       const mouseY = e.clientY - rect.top;
+
       if (
         mouseX > position.x + size.width - 10 &&
         mouseX < position.x + size.width + 10 &&
@@ -122,14 +123,29 @@ const useCustomTShirtDesigner = ({
         mouseY < position.y + size.height + 10
       ) {
         setResizeStart({ x: mouseX, y: mouseY });
-        setDragStart(null);
-      } else if (
+
+        return;
+      }
+
+      if (
         mouseX > position.x &&
         mouseX < position.x + size.width &&
         mouseY > position.y &&
         mouseY < position.y + size.height
       ) {
         setDragStart({ x: mouseX - position.x, y: mouseY - position.y });
+      }
+
+      if (
+        mouseX > position.x &&
+        mouseX < position.x + size.width &&
+        mouseY > position.y &&
+        mouseY < position.y + size.height
+      ) {
+        setShowControls(true);
+      } else {
+        setShowControls(false);
+        setDragStart(null);
         setResizeStart(null);
       }
     };
@@ -190,7 +206,6 @@ const useCustomTShirtDesigner = ({
     backgroundColor,
     file,
     shirtImage,
-    showIndicator,
     designLoaded,
     position,
     size,
@@ -214,8 +229,6 @@ const useCustomTShirtDesigner = ({
   return {
     file,
     setFile,
-    showIndicator,
-    setShowIndicator,
     canvasRef,
     handleExport,
     designPosition: position,
@@ -223,8 +236,6 @@ const useCustomTShirtDesigner = ({
     resizeDesign: setSize,
     repositionDesign: setPosition,
     setBoundingBoxSize,
-    setShowBoundingBox,
-    showBoundingBox,
     toggleGrid,
   };
 };

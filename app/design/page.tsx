@@ -252,22 +252,7 @@ export default function Design() {
           <Button variant='shadow' onClick={handleCenterAlign} color='primary' isDisabled={!file}>
             Center Align
           </Button>
-          <Button
-            variant='shadow'
-            color='danger'
-            onClick={() => setShowIndicator(!showIndicator)}
-            isDisabled={!file}
-          >
-            Show Resize Indicator {showIndicator ? 'On' : 'Off'}
-          </Button>
-          <Button
-            color='secondary'
-            variant='shadow'
-            onClick={() => setShowBoundingBox(!showBoundingBox)}
-            isDisabled={!file}
-          >
-            Show Bounding Box {showBoundingBox ? 'On' : 'Off'}
-          </Button>
+
           <Button
             color='secondary'
             variant='shadow'
