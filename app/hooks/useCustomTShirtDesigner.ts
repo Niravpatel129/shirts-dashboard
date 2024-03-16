@@ -23,7 +23,7 @@ const useCustomTShirtDesigner = ({
   const [size, setSize] = useState(initialSize);
   const aspectRatio = size.width / size.height;
   const [blendingMode, setBlendingMode] = useState(initialBlendingMode);
-  const [designImg] = useState(new Image());
+  const designImgRef = useRef(null);
 
   useEffect(() => {
     // center design to the bounding box
@@ -37,13 +37,28 @@ const useCustomTShirtDesigner = ({
   }, [file]);
 
   useEffect(() => {
+    if (file) {
+      const designImg = new Image();
+      designImg.onload = () => {
+        console.log('Design loaded');
+        setDesignLoaded(true);
+        designImgRef.current = designImg;
+      };
+      designImg.src = file;
+    }
+  }, [file]);
+
+  useEffect(() => {
     const canvas = canvasRef.current;
     canvas.style.backgroundColor = backgroundColor;
     const context = canvas.getContext('2d');
     const tshirtImg = new Image();
+    const designImg = designImgRef.current;
 
     tshirtImg.crossOrigin = 'anonymous';
-    designImg.crossOrigin = 'anonymous';
+    if (designImg) {
+      designImg.crossOrigin = 'anonymous';
+    }
 
     const drawGrid = () => {
       if (!showGrid) return;
@@ -118,17 +133,6 @@ const useCustomTShirtDesigner = ({
 
     tshirtImg.onload = draw;
     tshirtImg.src = shirtImage;
-
-    // Move the designImg.onload event outside the useEffect
-    designImg.onload = () => {
-      console.log('Design loaded');
-      setDesignLoaded(true);
-      draw();
-    };
-
-    if (file) {
-      designImg.src = file;
-    }
 
     const handleMouseDown = (e) => {
       const rect = canvas.getBoundingClientRect();
@@ -230,12 +234,11 @@ const useCustomTShirtDesigner = ({
     return () => {
       canvas.removeEventListener('mousedown', handleMouseDown);
       canvas.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
+      window.addEventListener('mouseup', handleMouseUp);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     backgroundColor,
-    file,
     shirtImage,
     designLoaded,
     position,
@@ -244,7 +247,7 @@ const useCustomTShirtDesigner = ({
     dragStart,
     resizeStart,
     aspectRatio,
-    blendingMode, // Add blendingMode to the dependency array
+    blendingMode,
   ]);
 
   const handleExport = async () => {
