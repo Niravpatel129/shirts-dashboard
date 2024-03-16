@@ -4,6 +4,7 @@ import {
   Button,
   Card,
   CardHeader,
+  Checkbox,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -45,6 +46,8 @@ export default function Design() {
     updateBlendingMode,
     blendingMode,
     toggleGrid,
+    snapToCenter,
+    toggleSnapToCenter,
   } = useCustomTShirtDesigner({
     backgroundColor,
     shirtImage: 'https://i.imgur.com/5q2gBIW.jpeg',
@@ -304,6 +307,17 @@ export default function Design() {
           >
             {(mode) => <SelectItem key={mode.value}>{mode.label}</SelectItem>}
           </Select>
+          <Checkbox
+            defaultSelected={false}
+            checked={snapToCenter}
+            onChange={(e) => {
+              console.log('🚀 ~ file:', file);
+              toggleSnapToCenter();
+            }}
+            color='secondary'
+          >
+            Auto Center Snap
+          </Checkbox>
         </div>
       </div>
     </div>

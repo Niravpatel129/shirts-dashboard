@@ -7,6 +7,7 @@ const useCustomTShirtDesigner = ({
   shirtImage,
   outputSize = { width: 1600, height: 1600 },
   initialBlendingMode = 'source-over', // default blending mode
+  initialSnapToCenter = false, // default snap-to-center value
 }) => {
   const canvasRef = useRef(null);
   const [boundingBoxSize, setBoundingBoxSize] = useState({ width: 250, height: 250 });
@@ -23,6 +24,7 @@ const useCustomTShirtDesigner = ({
   const [size, setSize] = useState({ width: 100, height: 100 }); // Update initial size
   const [aspectRatio, setAspectRatio] = useState(1); // Add aspectRatio state
   const [blendingMode, setBlendingMode] = useState(initialBlendingMode);
+  const [snapToCenter, setSnapToCenter] = useState(initialSnapToCenter); // Add snapToCenter state
   const designImgRef = useRef(null);
 
   useEffect(() => {
@@ -166,7 +168,7 @@ const useCustomTShirtDesigner = ({
 
         if (showControls) {
           // only if dragging
-          if (dragStart) {
+          if (dragStart && snapToCenter) {
             drawCenterLines();
           }
 
@@ -232,20 +234,22 @@ const useCustomTShirtDesigner = ({
         let newPosX = mouseX - dragStart.x;
         let newPosY = mouseY - dragStart.y;
 
-        // Check if the design is close to the center horizontally
-        if (
-          newPosX >= canvasCenterX - size.width / 2 - SNAP_THRESHOLD &&
-          newPosX <= canvasCenterX - size.width / 2 + SNAP_THRESHOLD
-        ) {
-          newPosX = canvasCenterX - size.width / 2;
-        }
+        if (snapToCenter) {
+          // Check if the design is close to the center horizontally
+          if (
+            newPosX >= canvasCenterX - size.width / 2 - SNAP_THRESHOLD &&
+            newPosX <= canvasCenterX - size.width / 2 + SNAP_THRESHOLD
+          ) {
+            newPosX = canvasCenterX - size.width / 2;
+          }
 
-        // Check if the design is close to the center vertically
-        if (
-          newPosY >= canvasCenterY - size.height / 2 - SNAP_THRESHOLD &&
-          newPosY <= canvasCenterY - size.height / 2 + SNAP_THRESHOLD
-        ) {
-          newPosY = canvasCenterY - size.height / 2;
+          // Check if the design is close to the center vertically
+          if (
+            newPosY >= canvasCenterY - size.height / 2 - SNAP_THRESHOLD &&
+            newPosY <= canvasCenterY - size.height / 2 + SNAP_THRESHOLD
+          ) {
+            newPosY = canvasCenterY - size.height / 2;
+          }
         }
 
         const newPos = {
@@ -297,6 +301,7 @@ const useCustomTShirtDesigner = ({
     resizeStart,
     aspectRatio,
     blendingMode,
+    snapToCenter,
   ]);
 
   const handleExport = async () => {
@@ -360,6 +365,11 @@ const useCustomTShirtDesigner = ({
     setBlendingMode(newBlendingMode);
   };
 
+  // Add a function to toggle the snap-to-center feature
+  const toggleSnapToCenter = () => {
+    setSnapToCenter((prevSnapToCenter) => !prevSnapToCenter);
+  };
+
   return {
     file,
     setFile,
@@ -373,6 +383,8 @@ const useCustomTShirtDesigner = ({
     toggleGrid,
     blendingMode,
     updateBlendingMode,
+    snapToCenter,
+    toggleSnapToCenter,
   };
 };
 
