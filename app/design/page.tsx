@@ -1,5 +1,5 @@
 'use client';
-import { Button, Card, CardHeader, Image, Select, SelectItem } from '@nextui-org/react';
+import { Button, Card, CardHeader, Image, Input, Select, SelectItem } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
 import CustomTShirtDesigner from '../components/CustomTShirtDesigner/CustomTShirtDesigner';
 import useCustomTShirtDesigner from '../hooks/useCustomTShirtDesigner';
@@ -18,13 +18,17 @@ export default function Design() {
   const [color, setColor] = useState('white');
   const [backgroundColor, setBackgroundColor] = useState('white');
   const [designs, setDesigns] = useState(TestDesigns);
+  const [width, setWidth] = useState(100);
+  const [length, setLength] = useState(100);
+  const [x, setX] = useState(0);
+  const [y, setY] = useState(0);
 
   const { file, setFile, showIndicator, setShowIndicator, canvasRef, handleExport } =
     useCustomTShirtDesigner({
       backgroundColor,
       shirtImage: 'https://i.imgur.com/5q2gBIW.jpeg',
       outputSize: { width: 600, height: 700 },
-      initialSize: { width: 100, height: 100 },
+      initialSize: { width, height: length },
     });
 
   useEffect(() => {
@@ -41,6 +45,15 @@ export default function Design() {
       setIsMobile(true);
     }
   }, []);
+
+  const handleCenterAlign = () => {
+    const canvasWidth = canvasRef.current.width;
+    const canvasHeight = canvasRef.current.height;
+    const centeredX = (canvasWidth - width) / 2;
+    const centeredY = (canvasHeight - length) / 2;
+    setX(centeredX);
+    setY(centeredY);
+  };
 
   if (isMobile) {
     return (
@@ -154,8 +167,58 @@ export default function Design() {
             setShowIndicator={setShowIndicator}
             canvasRef={canvasRef}
             handleExport={handleExport}
+            width={width}
+            height={length}
+            x={x}
+            y={y}
           />
         </div>
+      </div>
+      <div className='right-sidebar w-64 h-screen bg-gray-200 flex flex-col p-4'>
+        <h2 className='text-lg font-semibold mb-4'>Design Controls</h2>
+        <div className='mb-4'>
+          <span className='text-sm font-medium'>Width:</span>
+          <Input
+            type='number'
+            placeholder='Enter width'
+            className='w-full'
+            value={width}
+            onChange={(e) => setWidth(parseInt(e.target.value))}
+          />
+        </div>
+        <div className='mb-4'>
+          <span className='text-sm font-medium'>Length:</span>
+          <Input
+            type='number'
+            placeholder='Enter length'
+            className='w-full'
+            value={length}
+            onChange={(e) => setLength(parseInt(e.target.value))}
+          />
+        </div>
+        <div className='mb-4'>
+          <span className='text-sm font-medium'>X:</span>
+          <Input
+            type='number'
+            placeholder='Enter X value'
+            className='w-full'
+            value={x}
+            onChange={(e) => setX(parseInt(e.target.value))}
+          />
+        </div>
+        <div className='mb-4'>
+          <span className='text-sm font-medium'>Y:</span>
+          <Input
+            type='number'
+            placeholder='Enter Y value'
+            className='w-full'
+            value={y}
+            onChange={(e) => setY(parseInt(e.target.value))}
+          />
+        </div>
+        <Button className='bg-blue-500 text-white' onClick={handleCenterAlign}>
+          Center Align
+        </Button>
       </div>
     </div>
   );
