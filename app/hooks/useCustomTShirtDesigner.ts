@@ -86,7 +86,7 @@ const useCustomTShirtDesigner = ({
           width: boundingBoxSize.width,
           height: boundingBoxSize.height,
         };
-        context.strokeStyle = 'red';
+        context.strokeStyle = 'red'; // Set the stroke color to red
         context.lineWidth = 2;
         context.strokeRect(boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
       }
