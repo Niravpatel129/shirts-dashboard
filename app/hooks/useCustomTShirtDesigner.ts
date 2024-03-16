@@ -5,7 +5,6 @@ const useCustomTShirtDesigner = ({
   backgroundColor = 'white',
   shirtImage,
   outputSize = { width: 700, height: 700 },
-  initialSize = { width: 100, height: 100 },
   initialBlendingMode = 'source-over', // default blending mode
 }) => {
   const canvasRef = useRef(null);
@@ -20,8 +19,8 @@ const useCustomTShirtDesigner = ({
     x: (outputSize.width - boundingBoxSize.width) / 2,
     y: (outputSize.height - boundingBoxSize.height) / 2,
   });
-  const [size, setSize] = useState(initialSize);
-  const aspectRatio = size.width / size.height;
+  const [size, setSize] = useState({ width: 100, height: 100 }); // Update initial size
+  const [aspectRatio, setAspectRatio] = useState(1); // Add aspectRatio state
   const [blendingMode, setBlendingMode] = useState(initialBlendingMode);
   const designImgRef = useRef(null);
 
@@ -43,6 +42,16 @@ const useCustomTShirtDesigner = ({
         console.log('Design loaded');
         setDesignLoaded(true);
         designImgRef.current = designImg;
+
+        // Calculate aspect ratio and initial size based on the uploaded image
+        const { width, height } = designImg;
+        const aspectRatio = width / height;
+        setAspectRatio(aspectRatio);
+
+        const maxWidth = 200; // Set a maximum width for the initial size
+        const initialWidth = Math.min(maxWidth, width);
+        const initialHeight = initialWidth / aspectRatio;
+        setSize({ width: initialWidth, height: initialHeight });
       };
       designImg.src = file;
     }
