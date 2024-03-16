@@ -1,4 +1,3 @@
-// CustomTShirtDesigner.js
 import { Button } from '@nextui-org/react';
 import { saveAs } from 'file-saver';
 import { useEffect, useState } from 'react';
@@ -10,21 +9,21 @@ const CustomTShirtDesigner = ({
   outputSize = { width: 600, height: 700 },
   canvasRef,
 }) => {
+  const boundingBoxSize = { width: 250, height: 250 }; // Easily adjustable bounding box size
   const [file, setFile] = useState('');
   const [showIndicator, setShowIndicator] = useState(false);
   const [designLoaded, setDesignLoaded] = useState(false);
   const [dragStart, setDragStart] = useState(null);
   const [resizeStart, setResizeStart] = useState(null);
-  const [position, setPosition] = useState({ x: 150, y: 150 });
-  const [size, setSize] = useState({ width: 300, height: 400 });
-  const aspectRatio = size.width / size.height;
-  // const canvasRef = useRef(null);
+  const [position, setPosition] = useState({
+    x: (outputSize.width - boundingBoxSize.width) / 2,
+    y: (outputSize.height - boundingBoxSize.height) / 2,
+  });
+  const [size, setSize] = useState({ width: 100, height: 100 });
 
   useEffect(() => {
-    console.log('useEffect');
-
     const canvas = canvasRef.current;
-    canvas.style.backgroundColor = backgroundColor; // Set the background color
+    canvas.style.backgroundColor = backgroundColor;
     const context = canvas.getContext('2d');
     const tshirtImg = new Image();
     const designImg = new Image();
@@ -35,15 +34,25 @@ const CustomTShirtDesigner = ({
     const draw = () => {
       context.clearRect(0, 0, canvas.width, canvas.height);
       context.drawImage(tshirtImg, 0, 0, canvas.width, canvas.height);
+
+      if (dragStart || resizeStart) {
+        const boundingBox = {
+          x: (canvas.width - boundingBoxSize.width) / 2,
+          y: (canvas.height - boundingBoxSize.height) / 2,
+          width: boundingBoxSize.width,
+          height: boundingBoxSize.height,
+        };
+        context.strokeStyle = 'red';
+        context.lineWidth = 2;
+        context.strokeRect(boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
+      }
+
       if (designLoaded) {
         context.drawImage(designImg, position.x, position.y, size.width, size.height);
-
-        // Draw resize handle
         const handleSize = 10;
         const handleX = position.x + size.width - handleSize / 2;
         const handleY = position.y + size.height - handleSize / 2;
         context.fillRect(handleX, handleY, handleSize, handleSize);
-
         context.fillStyle = !showIndicator ? 'transparent' : 'blue';
       }
     };
@@ -83,50 +92,38 @@ const CustomTShirtDesigner = ({
     };
 
     const handleMouseMove = (e) => {
-      if (dragStart) {
-        const rect = canvas.getBoundingClientRect();
-        const mouseX = e.clientX - rect.left;
-        const mouseY = e.clientY - rect.top;
+      const rect = canvas.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
 
-        setPosition({
-          x: mouseX - dragStart.x,
-          y: mouseY - dragStart.y,
-        });
+      if (dragStart) {
+        const newPos = {
+          x: Math.min(
+            Math.max((canvas.width - boundingBoxSize.width) / 2, mouseX - dragStart.x),
+            (canvas.width + boundingBoxSize.width) / 2 - size.width,
+          ),
+          y: Math.min(
+            Math.max((canvas.height - boundingBoxSize.height) / 2, mouseY - dragStart.y),
+            (canvas.height + boundingBoxSize.height) / 2 - size.height,
+          ),
+        };
+        setPosition(newPos);
         draw();
       } else if (resizeStart) {
-        const rect = canvas.getBoundingClientRect();
-        const mouseX = e.clientX - rect.left;
-        const mouseY = e.clientY - rect.top;
-
-        // Calculate the difference from the initial resize position
         const dx = mouseX - resizeStart.x;
         const dy = mouseY - resizeStart.y;
+        let newWidth = size.width + dx;
+        let newHeight = size.height + dy;
 
-        if (e.shiftKey) {
-          // Maintain aspect ratio, resizing based on the larger movement in X or Y direction
-          const aspectRatio = size.width / size.height;
-          let newWidth = size.width + dx;
-          let newHeight = size.height + dy;
+        // Constrain to bounding box
+        newWidth = Math.min(newWidth, (canvas.width + boundingBoxSize.width) / 2 - position.x);
+        newHeight = Math.min(newHeight, (canvas.height + boundingBoxSize.height) / 2 - position.y);
 
-          if (Math.abs(dx) > Math.abs(dy)) {
-            newHeight = newWidth / aspectRatio;
-          } else {
-            newWidth = newHeight * aspectRatio;
-          }
+        setSize({
+          width: Math.max(50, newWidth), // Ensuring a minimum size
+          height: Math.max(50, newHeight),
+        });
 
-          setSize({
-            width: Math.max(100, newWidth),
-            height: Math.max(100, newHeight),
-          });
-        } else {
-          // Resize without maintaining the aspect ratio
-          setSize((prevSize) => ({
-            width: Math.max(100, prevSize.width + dx),
-            height: Math.max(100, prevSize.height + dy),
-          }));
-        }
-
-        // Update resizeStart to the current mouse position for the next move event
         setResizeStart({ x: mouseX, y: mouseY });
         draw();
       }
@@ -154,7 +151,6 @@ const CustomTShirtDesigner = ({
     designLoaded,
     position,
     size,
-    aspectRatio,
     canvasRef,
     outputSize,
     dragStart,
@@ -183,6 +179,7 @@ const CustomTShirtDesigner = ({
           Show Resize Indicator {showIndicator ? 'On' : 'Off'}
         </Button>
       )}
+      <Button onClick={handleExport}>Export Design</Button>
     </div>
   );
 };
