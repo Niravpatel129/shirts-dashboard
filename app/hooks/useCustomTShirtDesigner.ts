@@ -46,15 +46,9 @@ const useCustomTShirtDesigner = ({
         setDesignLoaded(true);
         designImgRef.current = designImg;
 
-        // Calculate aspect ratio and initial size based on the uploaded image
         const { width, height } = designImg;
         const aspectRatio = width / height;
         setAspectRatio(aspectRatio);
-
-        // const maxWidth = 200; // Set a maximum width for the initial size
-        // const initialWidth = Math.min(maxWidth, width);
-        // const initialHeight = initialWidth / aspectRatio;
-        // setSize({ width: initialWidth, height: initialHeight });
       };
       designImg.src = file;
     }
