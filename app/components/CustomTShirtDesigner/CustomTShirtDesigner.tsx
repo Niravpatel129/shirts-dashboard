@@ -9,7 +9,7 @@ const CustomTShirtDesigner = ({
   outputSize = { width: 600, height: 700 },
   canvasRef,
 }) => {
-  const boundingBoxSize = { width: 250, height: 250 }; // Easily adjustable bounding box size
+  const boundingBoxSize = { width: 250, height: 250 };
   const [file, setFile] = useState('');
   const [showIndicator, setShowIndicator] = useState(false);
   const [designLoaded, setDesignLoaded] = useState(false);
@@ -20,6 +20,7 @@ const CustomTShirtDesigner = ({
     y: (outputSize.height - boundingBoxSize.height) / 2,
   });
   const [size, setSize] = useState({ width: 100, height: 100 });
+  const aspectRatio = size.width / size.height; // Add this line to keep aspect ratio
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -113,7 +114,7 @@ const CustomTShirtDesigner = ({
         const dx = mouseX - resizeStart.x;
         const dy = mouseY - resizeStart.y;
         let newWidth = size.width + dx;
-        let newHeight = size.height + dy;
+        let newHeight = newWidth / aspectRatio; // Update this line to calculate newHeight based on aspect ratio
 
         // Constrain to bounding box
         newWidth = Math.min(newWidth, (canvas.width + boundingBoxSize.width) / 2 - position.x);
@@ -155,6 +156,7 @@ const CustomTShirtDesigner = ({
     outputSize,
     dragStart,
     resizeStart,
+    aspectRatio, // Add this dependency
   ]);
 
   const handleExport = () => {
