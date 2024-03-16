@@ -1,7 +1,7 @@
 import FileBase64 from 'react-file-base64';
 
 const CustomTShirtDesigner = ({
-  outputSize = { width: 600, height: 700 },
+  outputSize = { width: 700, height: 700 },
   file,
   setFile,
   showIndicator,

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 const useCustomTShirtDesigner = ({
   backgroundColor = 'white',
   shirtImage,
-  outputSize = { width: 600, height: 700 },
+  outputSize = { width: 700, height: 700 },
   initialSize = { width: 100, height: 100 },
 }) => {
   const canvasRef = useRef(null);
