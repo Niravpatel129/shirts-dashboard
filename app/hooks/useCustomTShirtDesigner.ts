@@ -189,7 +189,7 @@ const useCustomTShirtDesigner = ({
         mouseY < position.y + size.height + 10
       ) {
         setResizeStart({ x: mouseX, y: mouseY });
-
+        canvas.style.cursor = 'se-resize';
         return;
       }
 
@@ -220,6 +220,17 @@ const useCustomTShirtDesigner = ({
       const rect = canvas.getBoundingClientRect();
       const mouseX = e.clientX - rect.left;
       const mouseY = e.clientY - rect.top;
+
+      if (
+        mouseX > position.x + size.width - 10 &&
+        mouseX < position.x + size.width + 10 &&
+        mouseY > position.y + size.height - 10 &&
+        mouseY < position.y + size.height + 10
+      ) {
+        canvas.style.cursor = 'se-resize';
+      } else {
+        canvas.style.cursor = 'default';
+      }
 
       if (dragStart) {
         const canvasCenterX = canvas.width / 2;
@@ -272,6 +283,7 @@ const useCustomTShirtDesigner = ({
     const handleMouseUp = () => {
       setDragStart(null);
       setResizeStart(null);
+      canvas.style.cursor = 'default';
     };
 
     canvas.addEventListener('mousedown', handleMouseDown);
