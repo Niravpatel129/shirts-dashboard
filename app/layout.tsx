@@ -2,7 +2,6 @@
 import { NextUIProvider } from '@nextui-org/react';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import Head from 'next/head';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -13,10 +12,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
+      <head>
+        <meta charSet='utf-8' />
+        <meta name='viewport' content='width=device-width, initial-scale=1' />
+        <meta
+          name='description'
+          content='BoloPrint online customization services enable you to design and purchase top-quality custom clothing: from promotional apparel, personalized t-shirts, bespoke business attire, to unique custom-made gifts and more.'
+        />
+        <title>Boloprints: Online Printing</title>
+        <link rel='icon' href='/favicon.ico' />
+      </head>
       <body className={inter.className}>
-        <Head>
-          <title>Boloprint Landing</title>
-        </Head>
         <NextUIProvider>{children}</NextUIProvider>
       </body>
     </html>
