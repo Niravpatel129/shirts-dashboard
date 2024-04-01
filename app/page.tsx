@@ -1,6 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import Head from 'next/head';
 
 export default function Home() {
   const [isHovered, setIsHovered] = useState(false);
@@ -30,6 +31,9 @@ export default function Home() {
       onMouseLeave={handleMouseLeave}
       onMouseMove={handleMouseMove}
     >
+      <Head>
+        <title>My page title</title>
+      </Head>
       {isHovered && (
         <motion.div
           className='absolute pointer-events-none'
