@@ -1,13 +1,9 @@
 'use client';
-// Import the useEffect and useState hooks from React
 import React, { useEffect, useState } from 'react';
-// Import the motion component from Framer Motion
 import { motion } from 'framer-motion';
 
 export default function Home() {
-  // State to handle the hover effect
   const [isHovered, setIsHovered] = useState(false);
-  // State to store the mouse position
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   const handleButtonPress = () => {
@@ -15,17 +11,14 @@ export default function Home() {
     alert('subscribed!');
   };
 
-  // This function will run when the mouse enters the main area
   const handleMouseEnter = () => {
     setIsHovered(true);
   };
 
-  // This function will run when the mouse leaves the main area
   const handleMouseLeave = () => {
     setIsHovered(false);
   };
 
-  // This function will update the mouse position state
   const handleMouseMove = (event) => {
     setMousePosition({ x: event.clientX, y: event.clientY });
   };
@@ -57,7 +50,6 @@ export default function Home() {
         className={`h-full w-full flex justify-center items-center transition-opacity duration-300 ${
           isHovered ? 'opacity-100' : 'opacity-10'
         }`}
-        // style={{ background: 'rgba(255, 255, 255, 0.5)' }}
       >
         <div style={{}}>
           <h1 className='text-white text-[120px] font-extrabold font-segoe-ui'>Coming Soon</h1>
@@ -66,14 +58,12 @@ export default function Home() {
               In the meantime. Sign up for our monthly newsletter to stay up to date.
             </p>
             <div className='flex items-center justify-center w-full mt-20'>
-              {/* rounded border input */}
               <input
                 className='rounded-full border border-white p-4 w-96 text-black focus:outline-none'
                 type='email'
                 placeholder='Email Address'
               />
 
-              {/* submit button black with white text */}
               <button
                 onClick={handleButtonPress}
                 className='bg-black text-white px-8 py-5 rounded-full ml-4 hover:opacity-80 
