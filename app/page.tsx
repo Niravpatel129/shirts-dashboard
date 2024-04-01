@@ -24,6 +24,22 @@ export default function Home() {
     setMousePosition({ x: event.clientX, y: event.clientY });
   };
 
+  useEffect(() => {
+    const handleMouseMoveOnMount = (event) => {
+      const mainElement = event.target.closest('main');
+      if (mainElement) {
+        setIsHovered(true);
+        setMousePosition({ x: event.clientX, y: event.clientY });
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMoveOnMount);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMoveOnMount);
+    };
+  }, []);
+
   return (
     <main
       className='h-screen w-full flex justify-center items-center bg-gradient-to-r from-blue-500 to-pink-500 bg-opacity-50'
@@ -67,11 +83,9 @@ export default function Home() {
                 type='email'
                 placeholder='Email Address'
               />
-
               <button
                 onClick={handleButtonPress}
-                className='bg-black text-white px-8 py-5 rounded-full ml-4 hover:opacity-80 
-              active:opacity-100'
+                className='bg-black text-white px-8 py-5 rounded-full ml-4 hover:opacity-80 active:opacity-100'
               >
                 Subscribe
               </button>
