@@ -71,7 +71,7 @@ export default function Home() {
           isHovered ? 'opacity-100' : 'opacity-10'
         }`}
       >
-        <div style={{}}>
+        <div>
           <h1 className='text-white text-[120px] font-extrabold font-segoe-ui'>Coming Soon</h1>
           <div>
             <p className='text-white text-center text-lg'>

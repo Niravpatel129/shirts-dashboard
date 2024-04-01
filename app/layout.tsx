@@ -20,7 +20,6 @@ export default function RootLayout({
           content='BoloPrint online customization services enable you to design and purchase top-quality custom clothing: from promotional apparel, personalized t-shirts, bespoke business attire, to unique custom-made gifts and more.'
         />
         <title>Boloprints: Online Printing</title>
-        <link rel='icon' href='/favicon.ico' />
       </head>
       <body className={inter.className}>
         <NextUIProvider>{children}</NextUIProvider>
