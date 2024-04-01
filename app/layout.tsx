@@ -15,6 +15,7 @@ export default function RootLayout({
       <head>
         <meta charSet='utf-8' />
         <meta name='viewport' content='width=device-width, initial-scale=1' />
+        <link rel='icon' href='/favicon.ico' sizes='any' />
         <meta
           name='description'
           content='BoloPrint online customization services enable you to design and purchase top-quality custom clothing: from promotional apparel, personalized t-shirts, bespoke business attire, to unique custom-made gifts and more.'
