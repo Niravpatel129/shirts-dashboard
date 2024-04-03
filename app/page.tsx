@@ -46,9 +46,6 @@ export default function Home() {
       onMouseLeave={handleMouseLeave}
       onMouseMove={handleMouseMove}
     >
-      <Head>
-        <title>My page title</title>
-      </Head>
       {isHovered && (
         <motion.div
           className='absolute pointer-events-none'
