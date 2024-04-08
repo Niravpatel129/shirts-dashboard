@@ -1,4 +1,3 @@
-// Design.js
 'use client';
 import {
   Button,
@@ -15,7 +14,7 @@ import {
   SelectItem,
 } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
-import CustomTShirtDesigner from '../components/CustomTShirtDesigner/CustomTShirtDesigner';
+import CustomTShirtDesigner from '../../components/CustomTShirtDesigner/CustomTShirtDesigner';
 import useCustomTShirtDesigner from '../hooks/useCustomTShirtDesigner';
 
 const TestDesigns = [
