@@ -1,7 +1,6 @@
 'use client';
-import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import Head from 'next/head';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
   const [isHovered, setIsHovered] = useState(false);
@@ -72,7 +71,7 @@ export default function Home() {
             Coming Soon
           </h1>
           <div>
-            <p className='text-white text-center text-sm sm:text-base md:text-lg'>
+            <p className='text-white text-center text-sm sm:text-base md:text-lg mt-4'>
               In the meantime. Sign up for our monthly newsletter to stay up to date.
             </p>
             <div className='flex flex-col sm:flex-row items-center justify-center w-full mt-8 sm:mt-12 md:mt-16'>
